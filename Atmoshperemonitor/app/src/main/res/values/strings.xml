@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Atmoshpere monitor</string>
+    <string name="temp"></string>
+    <string name="co"></string>
+    <string name="noise"></string>
+
+</resources>
