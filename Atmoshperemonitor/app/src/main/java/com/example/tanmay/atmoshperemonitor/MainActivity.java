@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity{
         final MyHTTPConnector test;
         Context context = getApplicationContext();
         CharSequence text = null;
-        Log.e("construction"," Constructing myhttp connector" );
+        //Log.e("construction"," Constructing myhttp connector" );
 
         Timer timer = new Timer();
 
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void run()
             {
-                Log.e("Timertask","Entering timertask");
+                //Log.e("Timertask","Entering timertask");
                 try {
                     global_ans = result = new MyHTTPConnector().execute().get();
                 } catch (InterruptedException e) {
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity{
                 myclass.toastAns();
 //                Notificator notificator = new Notificator(global_ans);
 
-                Log.e("Toast","Making a toast");
+                //Log.e("Toast","Making a toast");
             }
         };
         timer.schedule(task, 0, 3000);
@@ -80,9 +80,9 @@ public class MainActivity extends AppCompatActivity{
                 String colevel = global_ans.substring(28,31);
                 String noiselevel = global_ans.substring(46,48);
 
-                Log.e("global_ans",global_ans);
-                Log.e("temperature","Temp is  : "  + temperature);
-                Log.e("colevel","co level is  : " + colevel);
+                //Log.e("global_ans",global_ans);
+                //Log.e("temperature","Temp is  : "  + temperature);
+                //Log.e("colevel","co level is  : " + colevel);
                 TextView textViewToChange = (TextView) findViewById(R.id.temp);
                 textViewToChange.setText(temperature);
                 TextView textViewToChange2 = (TextView) findViewById(R.id.co);
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity{
                     noiseCheck = Integer.parseInt(noiselevel);
                 }catch(Exception e)
                 {
-                    Log.e("Parsing problem","Received corrupt data");
+                    //Log.e("Parsing problem","Received corrupt data");
                     e.printStackTrace();
                 }
 
@@ -104,12 +104,12 @@ public class MainActivity extends AppCompatActivity{
 
                 if(tempCheck > 70) {
                     mBuilder.setSmallIcon(R.drawable.ic_stat_name);
-                    mBuilder.setContentTitle("Atmoshpereic alert.!");
+                    mBuilder.setContentTitle("Atmoshperic alert.!");
                     mBuilder.setContentText("" + tempCheck + " F - Temperature is very high.!");
                     NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(1, mBuilder.build());
 
-                    Log.e("Toasting","I like toasted results");
+                    //Log.e("Toasting","I like toasted results");
                     Context context = getApplicationContext();
                     CharSequence text = "Aren't you feeling HOT!! It's " + tempCheck +" F";
                     int duration = Toast.LENGTH_SHORT;
@@ -119,12 +119,12 @@ public class MainActivity extends AppCompatActivity{
                 }
                 if(co2Check > 400) {
                     mBuilder.setSmallIcon(R.drawable.ic_stat_name);
-                    mBuilder.setContentTitle("Atmoshpereic alert.!");
+                    mBuilder.setContentTitle("Atmoshperic alert.!");
                     mBuilder.setContentText("" + co2Check +" ppm - High Level of CO2 is detected.!");
                     NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(1, mBuilder.build());
 
-                    Log.e("Toasting","I like toasted results");
+                    //Log.e("Toasting","I like toasted results");
                     Context context = getApplicationContext();
                     CharSequence text = "Get some air.! Open windows. CO2 level is high It's " + co2Check +" PPM";
                     int duration = Toast.LENGTH_SHORT;
@@ -134,12 +134,12 @@ public class MainActivity extends AppCompatActivity{
                 }
                 if(noiseCheck > 95) {
                     mBuilder.setSmallIcon(R.drawable.ic_stat_name);
-                    mBuilder.setContentTitle("Atmoshpereic alert.!");
+                    mBuilder.setContentTitle("Atmoshperic alert.!");
                     mBuilder.setContentText("" + noiseCheck +" dB - High level of Noise is detected.!");
                     NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(1, mBuilder.build());
 
-                    Log.e("Toasting","I like toasted results");
+                    //Log.e("Toasting","I like toasted results");
                     Context context = getApplicationContext();
                     CharSequence text = "It's too Noisy no.! It's " + co2Check +" PPM";
                     int duration = Toast.LENGTH_SHORT;

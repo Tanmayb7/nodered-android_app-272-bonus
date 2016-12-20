@@ -41,7 +41,7 @@ public class MyHTTPConnector extends AsyncTask<Void, Void,String>{
            //  Log.e("Mylog", ans);
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("Locha", " ho gaya.!!");
+                //Log.e("Locha", " ho gaya.!!");
             }
 
             return ans;

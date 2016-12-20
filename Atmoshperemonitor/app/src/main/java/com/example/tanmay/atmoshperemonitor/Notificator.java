@@ -45,7 +45,7 @@ public class Notificator extends AppCompatActivity
 {
         public  Notificator (String testing)
         {
-            Log.e("Toasting","I love toasted results");
+            //Log.e("Toasting","I love toasted results");
             Context context = getApplicationContext();
             CharSequence text = testing;
             int duration = Toast.LENGTH_SHORT;
