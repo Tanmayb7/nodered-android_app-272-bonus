@@ -1,0 +1,203 @@
+[
+    {
+        "id": "95c386c3.e6e548",
+        "type": "ibmiot in",
+        "z": "7cfdc8f.330cb38",
+        "authentication": "quickstart",
+        "apiKey": "",
+        "inputType": "evt",
+        "deviceId": "virtualdevice-106515122034915413857-default",
+        "applicationId": "",
+        "deviceType": "+",
+        "eventType": "+",
+        "commandType": "",
+        "format": "json",
+        "name": "IBM IoT",
+        "service": "quickstart",
+        "allDevices": "",
+        "allApplications": "",
+        "allDeviceTypes": true,
+        "allEvents": true,
+        "allCommands": "",
+        "allFormats": "",
+        "qos": 0,
+        "x": 124,
+        "y": 277,
+        "wires": [
+            [
+                "7f87ebca.8159c4",
+                "d58a1f68.13d9b",
+                "49d90c13.8145c4"
+            ]
+        ]
+    },
+    {
+        "id": "7f87ebca.8159c4",
+        "type": "function",
+        "z": "7cfdc8f.330cb38",
+        "name": "monitorPPM",
+        "func": "// var ppmData = msg.payload;\n// var to_send = {topic : {},payload : {}};\n//  if(ppmData.units === \"ppm\" && ppmData.value > 400)\n//  {\n//      to_send.topic =\"Alert!!. High level of CO2 is detected.!\\n \"\n//      to_send.payload = \"Current CO2 level is \" +  ppmData.value + \" \" + ppmData.units;\n\n//     return msg.payload;\n// }\n\nif(msg.payload.units === \"ppm\")// && msg.payload.value > 400)\n{\n    global.set(\"HighPPM\",msg.payload.value);\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 363.99998474121094,
+        "y": 125.99999809265137,
+        "wires": [
+            [
+                "c86542cd.72944"
+            ]
+        ]
+    },
+    {
+        "id": "9eac07e6.04a448",
+        "type": "http in",
+        "z": "7cfdc8f.330cb38",
+        "name": "REST for getting data",
+        "url": "/showdata",
+        "method": "get",
+        "swaggerDoc": "",
+        "x": 166,
+        "y": 693.1110973358154,
+        "wires": [
+            [
+                "ffb01205.ad88c"
+            ]
+        ]
+    },
+    {
+        "id": "d58a1f68.13d9b",
+        "type": "function",
+        "z": "7cfdc8f.330cb38",
+        "name": "monitorTemp",
+        "func": "// var tempData = msg;\n// var to_send = {unit: {}, value : {}};\n// if(tempData.payload.units === \"fahrenheit\")// && tempData.value > 60)\n// {\n//     to_send.unit = tempData.payload.units;\n//     to_send.value = tempData.payload.value;\n//     // to_send.topic = \"Temparature Alert.!\"\n//     // to_send.payload= \"Current Tempearture is : \" + tempData.payload.value + \" F\";\n//     global.set(\"value\",to_send.value);\n//     return to_send;\n// }\nif(msg.payload.units === \"fahrenheit\" )//&& msg.payload.value > 70)\n{\n    global.set(\"HighTemp\",msg.payload.value);\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 277,
+        "wires": [
+            [
+                "c86542cd.72944"
+            ]
+        ]
+    },
+    {
+        "id": "98357696.9744c8",
+        "type": "http response",
+        "z": "7cfdc8f.330cb38",
+        "name": "URL /showdata",
+        "x": 826.8299865722656,
+        "y": 681.5104503631592,
+        "wires": []
+    },
+    {
+        "id": "c86542cd.72944",
+        "type": "debug",
+        "z": "7cfdc8f.330cb38",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 602.8264465332031,
+        "y": 277.8854064941406,
+        "wires": []
+    },
+    {
+        "id": "afb902c3.1c237",
+        "type": "e-mail",
+        "z": "7cfdc8f.330cb38",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "name": "tabhatt77@gmail.com",
+        "dname": "Email Alerts ",
+        "x": 966.8369445800781,
+        "y": 395.0069274902344,
+        "wires": []
+    },
+    {
+        "id": "ffb01205.ad88c",
+        "type": "function",
+        "z": "7cfdc8f.330cb38",
+        "name": "REST sending data to Android application",
+        "func": "var to_send = msg;\n\nto_send.payload.HighTemp = global.get(\"HighTemp\");\nto_send.payload.HighPPM = global.get(\"HighPPM\");\nto_send.payload.HighNoise = global.get(\"HighNoise\");\n\nreturn to_send;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 505.84033203125,
+        "y": 674.7778453826904,
+        "wires": [
+            [
+                "98357696.9744c8"
+            ]
+        ]
+    },
+    {
+        "id": "49d90c13.8145c4",
+        "type": "function",
+        "z": "7cfdc8f.330cb38",
+        "name": "monitorNoise",
+        "func": "if(msg.payload.units === \"dB\")// && msg.payload.value > 400)\n{\n    global.set(\"HighNoise\",msg.payload.value);\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 364.8298797607422,
+        "y": 413.6562805175781,
+        "wires": [
+            [
+                "c86542cd.72944",
+                "79e65c3d.8da634"
+            ]
+        ]
+    },
+    {
+        "id": "79e65c3d.8da634",
+        "type": "function",
+        "z": "7cfdc8f.330cb38",
+        "name": "For Sending Messages",
+        "func": "var to_send = {topic : {}, payload : {}};\nto_send.payload = \"\";\nvar flag = 0 ;\nto_send.topic = \"Atmospheric Alert..!\";\n\nif(global.get(\"HighTemp\") >= 70)\n{\n    to_send.payload += \"Temperature is High.! It is : \" + global.get(\"HighTemp\") + \" F  \";\n    flag = 1;\n}\nif(global.get(\"HighPPM\") >= 400)\n{\n    to_send.payload += \"CO2 level is very high.! It is : \" + global.get(\"HighPPM\") + \" PPM    \";\n    flag = 1;\n}\nif(global.get(\"HighNoise\") >= 95)\n{\n    to_send.payload += \"Noise level is very high.! It is : \" + global.get(\"HighNoise\") + \" dB\";\n    flag = 1;\n}   \n\nif(flag === 1)\n{\n    return to_send;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 563.8299560546875,
+        "y": 493.10418701171875,
+        "wires": [
+            [
+                "3d890451.416bbc",
+                "afb902c3.1c237",
+                "a238c747.219f78",
+                "a4b9a584.ec3bc8"
+            ]
+        ]
+    },
+    {
+        "id": "3d890451.416bbc",
+        "type": "debug",
+        "z": "7cfdc8f.330cb38",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 949.8369445800781,
+        "y": 310.6632194519043,
+        "wires": []
+    },
+    {
+        "id": "a238c747.219f78",
+        "type": "e-mail",
+        "z": "7cfdc8f.330cb38",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "name": "tabhatt77@gmail.com",
+        "dname": "Email Alerts",
+        "x": 966.3924865722656,
+        "y": 493.66668701171875,
+        "wires": []
+    },
+    {
+        "id": "a4b9a584.ec3bc8",
+        "type": "e-mail",
+        "z": "7cfdc8f.330cb38",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "name": "tanmay.bhatt@sjsu.edu",
+        "dname": "Email Alerts",
+        "x": 966.3819885253906,
+        "y": 581.670166015625,
+        "wires": []
+    }
+]
